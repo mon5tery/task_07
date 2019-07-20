@@ -31,10 +31,22 @@ def restaurant_create(request):
     return render(request, 'create.html', context)
 
 def restaurant_update(request, restaurant_id):
-
-    return
+    rest = Restaurant.objects.get(restaurant_id)
+    form = RestaurantForm(instance=restaurant_id)
+    if request.method == "POST":
+        form = restaurant(request.POST, instance=rest)
+        if form.is_valid():
+            form.save()
+            return redirect("restaurant-list")
+    context = {
+        "rest": rest,
+        "form": Form
+        #"id": restaurant_id
+    }
+    return render(request, "update.html", context)
 
 def restaurant_delete(request, restaurant_id):
+    rest_del= restaurant.objects.get(id=restaurant_id)
+    rest_del.delete()
 
-
-    return
+    return redirect("restaurant-list")
